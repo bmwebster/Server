@@ -11,7 +11,7 @@ using Server.GraphQL.Data;
 namespace GraphQL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230309162525_Initial")]
+    [Migration("20230309164210_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

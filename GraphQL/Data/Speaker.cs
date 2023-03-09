@@ -2,12 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Server.GraphQL.Data
 {
-    public class Speaker: IRelayNode
+    [Node(IdField = nameof(SpeakerId))]
+    public class Speaker
     {
-        [IsProjected(true)] // Needed to make sure this is available to calculate Relay Node Id
         public int SpeakerId { get; set; }
-
-        public override int DbId() => SpeakerId;
 
         // FIXME in c#11 we can use `required string` and remove `[Required]` annotation
         [Required]
@@ -22,5 +20,9 @@ namespace Server.GraphQL.Data
 
         public List<Topic> Topics { get; set; } = new List<Topic>();
 
+        public static async Task<Speaker?> Get(int id, ApplicationDbContext context)
+        {
+            return await context.Speakers.FindAsync(id);
+        }
     }
 }
