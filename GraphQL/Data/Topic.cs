@@ -12,10 +12,18 @@ namespace Server.GraphQL.Data
         [StringLength(200)]
         public string? Name { get; set; }
 
-        public static async Task<Topic?> Get(int id, ApplicationDbContext context)
+        [NodeResolver]
+        [UseSingleOrDefault]
+        [UseProjection]
+        public static IQueryable<Topic> GetTopic(int id, ApplicationDbContext context)
         {
-            return await context.Topics.FindAsync(id);
+            return context.Topics.Where(a => a.TopicId == id);
         }
+
+        // public static async Task<Topic?> Get(int id, ApplicationDbContext context)
+        // {
+        //     return await context.Topics.FindAsync(id);
+        // }
 
     }
 }

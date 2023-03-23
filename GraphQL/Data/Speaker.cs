@@ -20,9 +20,17 @@ namespace Server.GraphQL.Data
 
         public List<Topic> Topics { get; set; } = new List<Topic>();
 
-        public static async Task<Speaker?> Get(int id, ApplicationDbContext context)
+        [NodeResolver]
+        [UseSingleOrDefault]
+        [UseProjection]
+        public static IQueryable<Speaker> GetSpeaker(int id, ApplicationDbContext context)
         {
-            return await context.Speakers.FindAsync(id);
+            return context.Speakers.Where(a => a.SpeakerId == id);
         }
+        
+        // public static async Task<Speaker?> Get(int id, ApplicationDbContext context)
+        // {
+        //     return await context.Speakers.FindAsync(id);
+        // }
     }
 }
